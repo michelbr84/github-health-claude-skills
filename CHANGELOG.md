@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented in this file. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to semantic versioning.
 
+## [0.1.1] — 2026-05-05
+
+### Added
+
+- Added `install.sh` for installing the GitHub Health Claude Skills pack as personal Claude Code skills under `~/.claude/skills`.
+- Added README Quick Start instructions for fast install, audit-first install, and cloned-repository install.
+
+### Notes
+
+- The installer performs only local skill installation.
+- The installer does not run audits, modify GitHub repositories, change shell profiles, require sudo, or install global dependencies.
+- Skill content remains Markdown-only; `install.sh` is packaging/install convenience only.
+
 ## [0.1.0] — 2026-05-05
 
 ### Added

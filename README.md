@@ -4,7 +4,36 @@ A modular **Claude Skills** repository for auditing the full health of any GitHu
 
 You give Claude a GitHub repository URL and (optionally) a scope. Claude inspects the repository, separates verified facts from assumptions, produces a structured health report, and recommends next actions — without ever performing destructive operations on your behalf.
 
-This is the **V1, Markdown-only release**. It contains skills, references, templates, examples, and evaluation prompts. There are no executable scripts in this version.
+This is the **V1 release**. Skills, references, templates, examples, and evaluation prompts are entirely Markdown. A small `install.sh` is provided for personal installation; it does not perform audits or modify GitHub state.
+
+---
+
+## Quick Start
+
+### Fast install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/michelbr84/github-health-claude-skills/main/install.sh | bash
+```
+
+### Install from a cloned copy
+
+```bash
+git clone https://github.com/michelbr84/github-health-claude-skills.git
+cd github-health-claude-skills
+bash install.sh
+```
+
+Both methods install 16 skills under `~/.claude/skills/`. The installer creates the directory if needed, backs up any existing skill of the same name with a timestamped suffix, and verifies that every installed skill has a `SKILL.md`. It does not require sudo, does not modify shell profiles, and does not install global dependencies.
+
+Once installed, try a first audit in Claude Code:
+
+```
+/github-health quick https://github.com/michelbr84/fluxswap-dex
+/github-health actions https://github.com/michelbr84/fluxswap-dex
+```
+
+If Claude Code was already running when you installed and `~/.claude/skills/` did not exist before, restart Claude Code so the new skill directory is picked up.
 
 ---
 
@@ -260,7 +289,7 @@ This repo is shipped in three phases.
 ### V1 — Markdown-only (current)
 
 - All skills, agents, templates, examples, and evals are Markdown.
-- No executable scripts, no automation, no destructive operations.
+- The only executable code is a small `install.sh` for personal installation. No audit automation. No destructive operations.
 - Claude does the inspection by hand using whatever read-only tools are available (local Git, GitHub CLI in read-only mode, GitHub UI, GitHub MCP, repository files).
 
 ### V2 — Command-guided
@@ -293,7 +322,7 @@ Guidelines:
 - Keep `SKILL.md` files concise. Move long checklists to `references/`.
 - Never introduce destructive defaults. Approval gates are non-negotiable.
 - Avoid embedding private personal information in any file.
-- Markdown only in V1.
+- Skill content is Markdown only in V1.
 
 ---
 

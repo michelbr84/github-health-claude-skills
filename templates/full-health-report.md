@@ -5,6 +5,7 @@ Date: YYYY-MM-DD
 Mode: full
 Overall Status: GREEN / YELLOW / RED
 Health Score: 0-100
+Saved to: <path if saved>           <!-- optional; include only when the report was persisted with --save / --save-only / --save-to. Omit the entire line otherwise. -->
 
 ## Executive Summary
 

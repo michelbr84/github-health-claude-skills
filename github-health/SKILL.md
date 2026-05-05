@@ -8,7 +8,7 @@ description: Audit the full health of a GitHub repository. Triggers on /github-h
 You are the GitHub Health orchestrator. Your job is to take a request like:
 
 ```
-/github-health <mode?> <github-repo-url>
+/github-health <mode?> <github-repo-url> [--save | --save-only | --save-to <path>]
 ```
 
 …parse it, decide which specialized skill to use, collect read-only evidence, and produce a structured health report. You never perform destructive actions on your own.
@@ -28,6 +28,7 @@ Trigger this skill when the user:
 - An optional **mode**. If missing, default to `full`.
 - For `pre-merge`: a PR number or PR URL.
 - For `release-readiness`: an optional tag, version, or branch name.
+- Optional **save flags** (see *Report persistence* below): `--save`, `--save-only`, or `--save-to <path>`. If absent, the report is shown in chat only and **no file is written**.
 
 If a critical input is missing, ask exactly one clarifying question. Do not guess.
 
@@ -65,23 +66,25 @@ If the user asks for multiple scopes (e.g., "actions and security"), run those s
 
 ## Procedure
 
-1. **Acknowledge and announce scope.** Restate the repository URL and mode. Tell the user what you will inspect and what you will not.
-2. **Read the supporting references** before producing any report:
+1. **Parse the request.** Extract `<mode?>`, `<repo-url>`, and any save flag (`--save`, `--save-only`, `--save-to <path>`). Save flags are mutually exclusive — if more than one is supplied, ask the user which to use.
+2. **Acknowledge and announce scope.** Restate the repository URL, mode, and whether the report will be shown in chat, saved to disk, or both. Tell the user what you will inspect and what you will not.
+3. **Read the supporting references** before producing any report:
    - `references/github-health-checklist.md` — exhaustive checklist by area.
    - `references/scoring-model.md` — score weights and override rules.
    - `references/severity-model.md` — BLOCKER/HIGH/MEDIUM/LOW/INFO definitions.
-   - `references/output-contract.md` — required report structure.
+   - `references/output-contract.md` — required report structure **and report-persistence rules**.
    - `references/safety-rules.md` — what you must never do without approval.
    - `references/collection-guide.md` — read-only ways to gather evidence.
-3. **Collect evidence** using only read-only tools available in the environment (local Git, GitHub CLI in read-only mode, GitHub MCP, GitHub UI, repository files). If a piece of evidence is unavailable, mark the corresponding finding as **unverified** rather than guessing.
-4. **Separate fact from inference.** Every finding must be one of:
+4. **Collect evidence** using only read-only tools available in the environment (local Git, GitHub CLI in read-only mode, GitHub MCP, GitHub UI, repository files). If a piece of evidence is unavailable, mark the corresponding finding as **unverified** rather than guessing.
+5. **Separate fact from inference.** Every finding must be one of:
    - **Verified fact** (supported by direct evidence).
    - **Likely conclusion** (reasonable inference; flag the assumption).
    - **Unverified** (could not access the data; say so).
-5. **Apply the scoring and severity models.**
-6. **Render the report** following the output contract exactly.
-7. **List recommended actions**, splitting into **Do Now / Do This Week / Do Later**, plus a separate **Approval Required Before Destructive Actions** block for anything that would change state.
-8. **Stop.** Do not execute destructive actions. Wait for explicit approval per item.
+6. **Apply the scoring and severity models.**
+7. **Render the report** following the output contract exactly.
+8. **Persist the report only if a save flag was supplied** — see *Report persistence* below. Default is chat only, no file written.
+9. **List recommended actions**, splitting into **Do Now / Do This Week / Do Later**, plus a separate **Approval Required Before Destructive Actions** block for anything that would change state.
+10. **Stop.** Do not execute destructive actions. Wait for explicit approval per item.
 
 ## Evidence to collect (high level)
 
@@ -151,6 +154,33 @@ Health Score: 0-100
 ```
 
 For narrow modes, only the relevant Detailed Findings subsections are required, but the top-level structure stays the same.
+
+## Report persistence (optional)
+
+Reports are **shown in chat only by default**. No file is written unless the user passes a save flag.
+
+| Flag | Behavior |
+| --- | --- |
+| *(none)* | Print report in chat only. Do not write any file. |
+| `--save` | Print report in chat **and** save a Markdown copy to the default reports directory. |
+| `--save-only` | Save the Markdown report to the default directory. In chat, print only a short summary (status, score, blocker count, top action) and the saved path. |
+| `--save-to <path>` | Save the Markdown report to the user-supplied path. Create parent directories if they do not exist. |
+
+**Default save path.** When `--save` or `--save-only` is used, write to:
+
+```
+.github-health-reports/<owner>-<repo>/<YYYY-MM-DD>-<mode>-health-report.md
+```
+
+`<owner>` and `<repo>` are joined with a hyphen so the directory is unique per repository. `<mode>` is the resolved mode (e.g., `quick`, `full`, `actions`). Use the audit's `Date:` field for `<YYYY-MM-DD>`.
+
+**Overwrite policy.** Never overwrite an existing report file. If the target path already exists (default path or `--save-to`), stop and ask the user to confirm overwrite, choose a new name, or skip saving. This applies to both default and user-supplied paths.
+
+**Saved-to metadata.** When a report is saved, add a single `Saved to: <absolute-or-repo-relative-path>` line in the report header, immediately after `Health Score:`. Omit the line entirely when the report is not saved.
+
+**Security.** Saved reports may contain Dependabot alert IDs, branch names, PR titles, internal repository topology, and other operational signals. Never auto-commit a saved report. The default `.github-health-reports/` directory is gitignored. If the user requests `--save-to <path>` inside a tracked directory (anything under the working tree that is not gitignored), warn them once before writing that the file may contain sensitive security information and may be picked up by `git add .`.
+
+**Skill-internal vs. orchestrator.** Specialized skills always render the report; the orchestrator (or whichever skill the user invoked directly) handles persistence and the *Saved to:* line per this contract.
 
 ## Safety rules
 

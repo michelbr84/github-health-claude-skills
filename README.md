@@ -132,6 +132,42 @@ If no mode is provided, the orchestrator runs the **full** audit.
 /github-health release-readiness https://github.com/michelbr84/fluxswap-dex
 ```
 
+### Saving reports
+
+By default, audit reports are **shown in chat only** — no file is written. To persist a report to disk, append one of these flags:
+
+```
+# Print in chat AND save a Markdown copy to the default reports directory
+/github-health quick https://github.com/michelbr84/fluxswap-dex --save
+
+# Save only (chat shows a short summary plus the saved path)
+/github-health full https://github.com/michelbr84/fluxswap-dex --save-only
+
+# Save to a custom path (parent directories are created if needed)
+/github-health actions https://github.com/michelbr84/fluxswap-dex --save-to .github-health-reports/actions.md
+```
+
+The default save path is:
+
+```
+.github-health-reports/<owner>-<repo>/<YYYY-MM-DD>-<mode>-health-report.md
+```
+
+For example:
+
+```
+.github-health-reports/michelbr84-fluxswap-dex/2026-05-05-quick-health-report.md
+```
+
+Save semantics:
+
+- **Non-overwriting.** If the target file already exists, the skill stops and asks you to confirm overwrite, choose a new name, or skip saving.
+- **Never auto-committed.** Saving writes the file to disk; it does not `git add` or commit anything.
+- **Gitignored by default.** `.github-health-reports/` is listed in `.gitignore`, so default-path reports stay out of version control.
+- **Saving inside a tracked folder warns first.** If you pass `--save-to <path>` somewhere that *is* tracked (e.g., `docs/`), the skill warns once that the report may contain sensitive security information before writing.
+
+The full persistence contract — including the `Saved to:` metadata line and overwrite rules — lives in `github-health/references/output-contract.md`.
+
 ---
 
 ## Modes at a glance

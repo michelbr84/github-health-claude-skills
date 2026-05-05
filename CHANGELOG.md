@@ -2,6 +2,29 @@
 
 All notable changes to this project are documented in this file. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to semantic versioning.
 
+## [0.1.2] — 2026-05-05
+
+### Added
+
+- Optional Markdown report saving instructions for the `/github-health` orchestrator. By default, audit reports are still shown in chat only and **no file is written**. Three new flags control persistence:
+  - `--save` — print the report in chat and save a Markdown copy.
+  - `--save-only` — save the Markdown report and print only a short summary plus the saved path.
+  - `--save-to <path>` — save the Markdown report to the user-supplied path; parent directories are created as needed.
+- Default save path convention: `.github-health-reports/<owner>-<repo>/<YYYY-MM-DD>-<mode>-health-report.md`.
+- Optional `Saved to: <path>` metadata line in the report header, populated only when persistence is used.
+- Non-overwriting save policy: if the target file already exists, the skill stops and asks the user to confirm overwrite, rename, or skip.
+- Security warning when `--save-to` targets a tracked directory, since reports may contain Dependabot alert IDs, branch names, PR titles, and other operational signals.
+- New `.gitignore` entry for `.github-health-reports/` so default-path reports stay out of version control.
+- README "Saving reports" subsection with usage examples for `--save` and `--save-to`.
+- Report-persistence section in `github-health/references/output-contract.md` defining flags, default path, filename safety, overwrite behavior, the `Saved to:` metadata line, and security warnings.
+- Optional `Saved to:` line in `templates/full-health-report.md`.
+
+### Notes
+
+- Saving is purely a documentation/instruction-level change. No audit automation, no executable scripts, and no install-script behavior was added or modified.
+- All 16 `SKILL.md` files retain their existing YAML frontmatter and structure.
+- Saved reports are never auto-committed. The `.github-health-reports/` directory is gitignored by default; a tracked-directory `--save-to` requires the user to acknowledge a security warning.
+
 ## [0.1.1] — 2026-05-05
 
 ### Added

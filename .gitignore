@@ -1,0 +1,5 @@
+# Default location for saved GitHub Health Reports.
+# Reports may contain Dependabot alert IDs, branch names, PR titles, and other
+# operational signals. They are written by --save / --save-only / --save-to and
+# must never be committed automatically.
+.github-health-reports/

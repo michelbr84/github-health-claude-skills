@@ -4,7 +4,7 @@
 
 # Branch Cleanup Report
 
-Repository: michelbr84/GarraRUST
+Repository: michelbr84/fluxswap-dex
 Date: 2026-05-05
 Mode: branches
 Overall Status: YELLOW
@@ -115,4 +115,4 @@ None.
 
 ## Final Recommendation
 
-Approve the four merged-branch deletions today. Defer `experiment/ecs-redesign` until the archive tag is created. Re-run `/github-health branches https://github.com/michelbr84/GarraRUST` after to confirm hygiene.
+Approve the four merged-branch deletions today. Defer `experiment/ecs-redesign` until the archive tag is created. Re-run `/github-health branches https://github.com/michelbr84/fluxswap-dex` after to confirm hygiene.

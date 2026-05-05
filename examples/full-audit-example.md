@@ -4,7 +4,7 @@
 
 # GitHub Health Report
 
-Repository: michelbr84/GarraRUST
+Repository: michelbr84/fluxswap-dex
 Date: 2026-05-05
 Mode: full
 Overall Status: YELLOW
@@ -46,7 +46,7 @@ None.
 - `SECURITY.md` present and current with private vulnerability reporting enabled.
 - Workflows pin actions by stable major and declare `permissions:` blocks.
 - 0 open secret scanning alerts; 0 malware alerts.
-- Linear scope `GARRA` shows healthy alignment with merged PRs.
+- The project's Linear scope shows healthy alignment with merged PRs.
 
 ## Detailed Findings
 
@@ -105,7 +105,7 @@ None.
 
 ### Linear / Roadmap Sync
 
-- [INFO] `ROADMAP.md` aligned with Linear project `GARRA Q2`.
+- [INFO] `ROADMAP.md` aligned with the active Linear project.
 - [LOW] PR #195 lacks a Linear linkage; recommend tagging.
 
 ## Recommended Actions
@@ -140,4 +140,4 @@ None.
 
 ## Final Recommendation
 
-Enable branch protection on `main` and assign owner remediation for CodeQL alert #42 today. After both land, re-run `/github-health full https://github.com/michelbr84/GarraRUST` to confirm the status moves from YELLOW to GREEN.
+Enable branch protection on `main` and assign owner remediation for CodeQL alert #42 today. After both land, re-run `/github-health full https://github.com/michelbr84/fluxswap-dex` to confirm the status moves from YELLOW to GREEN.

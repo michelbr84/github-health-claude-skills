@@ -23,7 +23,6 @@ Outras boas opções:
 | `repo-health-claude`          | Mais curto                                            |
 | `github-audit-claude-skills`  | Mais focado em auditoria                              |
 | `project-health-claude`       | Mais amplo, pode servir para GitHub + Linear + deploy |
-| `garra-github-health-skills`  | Bom se você quiser deixar com identidade Garra        |
 | `devops-health-claude-skills` | Mais amplo, inclui CI/CD, segurança e manutenção      |
 
 Minha recomendação: **`github-health-claude-skills`**.
@@ -35,19 +34,19 @@ Minha recomendação: **`github-health-claude-skills`**.
 A skill deveria funcionar assim:
 
 ```text
-/github-health https://github.com/michelbr84/GarraRUST
+/github-health https://github.com/michelbr84/fluxswap-dex
 ```
 
 Ou com escopo específico:
 
 ```text
-/github-health actions https://github.com/michelbr84/GarraRUST
-/github-health security https://github.com/michelbr84/GarraRUST
-/github-health branches https://github.com/michelbr84/GarraRUST
-/github-health code-scanning https://github.com/michelbr84/GarraRUST
-/github-health dependabot https://github.com/michelbr84/GarraRUST
-/github-health linear https://github.com/michelbr84/GarraRUST
-/github-health docs https://github.com/michelbr84/GarraRUST
+/github-health actions https://github.com/michelbr84/fluxswap-dex
+/github-health security https://github.com/michelbr84/fluxswap-dex
+/github-health branches https://github.com/michelbr84/fluxswap-dex
+/github-health code-scanning https://github.com/michelbr84/fluxswap-dex
+/github-health dependabot https://github.com/michelbr84/fluxswap-dex
+/github-health linear https://github.com/michelbr84/fluxswap-dex
+/github-health docs https://github.com/michelbr84/fluxswap-dex
 ```
 
 A skill principal recebe o argumento, entende o repo e decide quais subskills chamar.
@@ -122,7 +121,7 @@ github-health-claude-skills/
 │   └── remediation-plan.md
 │
 ├── examples/
-│   ├── garra-rust-full-audit-example.md
+│   ├── full-audit-example.md
 │   ├── actions-only-example.md
 │   ├── security-only-example.md
 │   └── branch-cleanup-example.md
@@ -177,7 +176,7 @@ A estrutura ideal seria ter uma skill principal com roteamento por intenção.
 ## Comando completo
 
 ```text
-/github-health https://github.com/michelbr84/GarraRUST
+/github-health https://github.com/michelbr84/fluxswap-dex
 ```
 
 Faz tudo.
@@ -500,7 +499,7 @@ Deve verificar:
 | ROADMAP.md         | Está sincronizado com epic/initiative? |
 | Security alert     | Existe item privado/adequado?          |
 
-Essa skill deve proteger contra o problema que você já viu: **auto-close acidental no Linear** por branch/PR com `FLU-123`, `GAR-123`, etc.
+Essa skill deve proteger contra o problema que você já viu: **auto-close acidental no Linear** por branch/PR com `FLU-123`, `LIN-123`, etc.
 
 ---
 
@@ -819,7 +818,7 @@ Eu criaria uma seção muito forte:
 - Cuidado com auto-close por IDs no título/branch.
 ```
 
-Para seus projetos, isso é importante porque GarraRUST e FluxSwap já têm fluxo GitHub + Linear.
+Para seus projetos, isso é importante porque FluxSwap já tem fluxo GitHub + Linear.
 
 ---
 
@@ -851,7 +850,7 @@ Eu criaria esses modos:
 Usuário:
 
 ```text
-/github-health https://github.com/michelbr84/GarraRUST
+/github-health https://github.com/michelbr84/fluxswap-dex
 ```
 
 Claude deveria responder algo assim:
@@ -898,7 +897,7 @@ Próximas ações:
 1. Aguardar PR #...
 2. Resolver Dependabot ...
 3. Deletar branches X/Y/Z após aprovação
-4. Atualizar ROADMAP com GAR-...
+4. Atualizar ROADMAP com FLUX-...
 ```
 
 ---
@@ -909,7 +908,7 @@ Em `examples/`, eu criaria exemplos reais simulados:
 
 | Arquivo                            | Conteúdo                            |
 | ---------------------------------- | ----------------------------------- |
-| `garra-rust-full-audit-example.md` | Auditoria completa estilo GarraRUST |
+| `full-audit-example.md`            | Exemplo ilustrativo de auditoria completa |
 | `actions-only-example.md`          | Diagnóstico de CI                   |
 | `security-only-example.md`         | CodeQL + Dependabot + secrets       |
 | `branch-cleanup-example.md`        | Lista de branches e recomendação    |
@@ -928,7 +927,7 @@ A skill-creator oficial da Anthropic recomenda criar prompts de teste para avali
 Você poderia ter testes como:
 
 ```text
-1. "Audite a saúde do repo https://github.com/michelbr84/GarraRUST"
+1. "Audite a saúde do repo https://github.com/michelbr84/fluxswap-dex"
 2. "Veja só as Actions desse repo"
 3. "Quais branches posso limpar com segurança?"
 4. "Dependabot alerts parecem resolvidos?"
@@ -1030,7 +1029,7 @@ A V1 deve ser **100% Markdown**, sem scripts. Assim você valida o comportamento
 Para o seu objetivo, o produto final seria algo como:
 
 ```text
-/github-health https://github.com/michelbr84/GarraRUST
+/github-health https://github.com/michelbr84/fluxswap-dex
 ```
 
 E o Claude entrega uma auditoria completa de:
@@ -1052,7 +1051,7 @@ E o Claude entrega uma auditoria completa de:
 * próximos passos;
 * plano seguro de cleanup.
 
-Essa skill ficaria extremamente útil para GarraRUST, FluxSwap, ClaudeMaxPower, Connect Car e qualquer repo novo seu.
+Essa skill ficaria extremamente útil para FluxSwap, ClaudeMaxPower, Connect Car e qualquer repo novo seu.
 
 [1]: https://github.com/zubair-trabzada/ai-realestate-claude "GitHub - zubair-trabzada/ai-realestate-claude: AI real estate research engine for Claude Code. Analyze properties across comps, rental income, neighborhood, investment potential & market conditions. Residential, commercial, flip, BRRRR analysis + PDF reports. 15 skills, 5 agents. Not investment advice. · GitHub"
 [2]: https://code.claude.com/docs/en/skills "Extend Claude with skills - Claude Code Docs"
@@ -1061,5 +1060,5 @@ Essa skill ficaria extremamente útil para GarraRUST, FluxSwap, ClaudeMaxPower, 
 [5]: https://docs.github.com/en/rest/code-scanning/code-scanning "REST API endpoints for code scanning - GitHub Docs"
 [6]: https://docs.github.com/code-security/dependabot/dependabot-alerts/about-dependabot-alerts "About Dependabot alerts - GitHub Docs"
 [7]: https://docs.github.com/rest/reference/secret-scanning "REST API endpoints for secret scanning - GitHub Docs"
-[8]: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills?utm_source=garraia.org "Equipping agents for the real world with Agent Skills"
+[8]: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills "Equipping agents for the real world with Agent Skills"
 [9]: https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md "skills/skills/skill-creator/SKILL.md at main · anthropics/skills · GitHub"

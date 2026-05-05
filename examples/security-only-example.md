@@ -4,7 +4,7 @@
 
 # GitHub Health Report
 
-Repository: michelbr84/GarraRUST
+Repository: michelbr84/fluxswap-dex
 Date: 2026-05-05
 Mode: security
 Overall Status: YELLOW
@@ -97,4 +97,4 @@ None — all recommendations above are non-destructive.
 
 ## Final Recommendation
 
-Address CodeQL alert #42 and triage the Dependabot PR backlog. Once both are clear, re-run `/github-health security https://github.com/michelbr84/GarraRUST` to confirm the security score moves toward GREEN.
+Address CodeQL alert #42 and triage the Dependabot PR backlog. Once both are clear, re-run `/github-health security https://github.com/michelbr84/fluxswap-dex` to confirm the security score moves toward GREEN.

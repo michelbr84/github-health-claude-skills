@@ -4,7 +4,7 @@
 
 # Post-Merge Report
 
-Repository: michelbr84/GarraRUST
+Repository: michelbr84/fluxswap-dex
 PR: #194 — "Refactor camera capture pipeline"
 Merged on: 2026-05-02
 Mode: post-merge
@@ -12,14 +12,14 @@ Overall Status: YELLOW
 
 ## Executive Summary
 
-The merge landed cleanly — default branch CI is green. Two follow-ups are open: the source branch is still present (candidate for deletion), and the linked Linear issue `GARRA-99` was not moved from `In Review` to `Done`. No regressions detected so far.
+The merge landed cleanly — default branch CI is green. Two follow-ups are open: the source branch is still present (candidate for deletion), and the linked Linear issue `<linear-id>` was not moved from `In Review` to `Done`. No regressions detected so far.
 
 ## Snapshot
 
 - Default branch CI after merge: green
 - Merge SHA: `9f3a2b7`
 - Source branch state: still present (`feature/camera-capture`)
-- Linear ticket update: pending (`GARRA-99` still In Review)
+- Linear ticket update: pending (`<linear-id>` still In Review)
 - CHANGELOG / docs touched if needed: yes (added `[Unreleased]` entry)
 - Releases triggered: no
 
@@ -29,7 +29,7 @@ None.
 
 ## Attention Needed
 
-- [MEDIUM] Linear `GARRA-99` not moved to `Done`.
+- [MEDIUM] Linear `<linear-id>` not moved to `Done`.
 - [LOW] Source branch `feature/camera-capture` still present.
 
 ## Detailed Findings
@@ -52,7 +52,7 @@ None.
 
 | Linear ID | Pre-merge status | Current status | Recommendation |
 | --- | --- | --- | --- |
-| `GARRA-99` | In Review | In Review | Move to Done with approval |
+| `<linear-id>` | In Review | In Review | Move to Done with approval |
 
 ### Documentation drift
 
@@ -69,7 +69,7 @@ None.
 
 ### Do Now
 
-- Approve Linear status change for `GARRA-99` to `Done`.
+- Approve Linear status change for `<linear-id>` to `Done`.
 
 ### Do This Week
 
@@ -81,7 +81,7 @@ None.
 
 ## Approval Required Before Destructive Actions
 
-- Action: Update Linear `GARRA-99` from `In Review` to `Done`.
+- Action: Update Linear `<linear-id>` from `In Review` to `Done`.
   Why: PR #194 merged 2026-05-02; CI green; CHANGELOG entry added.
   Rollback: Move back to `In Review` from the Linear UI.
 
@@ -92,4 +92,4 @@ None.
 
 ## Final Recommendation
 
-Approve the two pending state changes and consider running `/github-health release-readiness https://github.com/michelbr84/GarraRUST` when ready to cut the next minor.
+Approve the two pending state changes and consider running `/github-health release-readiness https://github.com/michelbr84/fluxswap-dex` when ready to cut the next minor.

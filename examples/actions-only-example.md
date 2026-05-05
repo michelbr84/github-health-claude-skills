@@ -4,7 +4,7 @@
 
 # GitHub Health Report
 
-Repository: michelbr84/GarraRUST
+Repository: michelbr84/fluxswap-dex
 Date: 2026-05-05
 Mode: actions
 Overall Status: YELLOW
@@ -73,4 +73,4 @@ None.
 
 ## Final Recommendation
 
-Address the two HIGH workflow findings this week and re-run `/github-health actions https://github.com/michelbr84/GarraRUST`. If clear, escalate to `/github-health full <repo>` to confirm the broader picture.
+Address the two HIGH workflow findings this week and re-run `/github-health actions https://github.com/michelbr84/fluxswap-dex`. If clear, escalate to `/github-health full <repo>` to confirm the broader picture.

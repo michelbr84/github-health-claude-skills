@@ -4,7 +4,7 @@
 
 # Pre-Merge Report
 
-Repository: michelbr84/GarraRUST
+Repository: michelbr84/fluxswap-dex
 PR: #198 — "Voxel streaming chunked loader"
 Date: 2026-05-05
 Mode: pre-merge
@@ -21,7 +21,7 @@ PR #198 is mergeable with no conflicts and one approving review, but the `covera
 - Required check status: one `pending` (`coverage`); others `success`
 - Review decision: approved (1 of 1 required)
 - Conflicts: no
-- Linked Linear: `GARRA-110` (in PR body)
+- Linked Linear: `<linear-id>` (in PR body)
 - Auto-close risk: no
 - Branch base: `main` (default)
 
@@ -62,7 +62,7 @@ None.
 | Source | Reference | OK |
 | --- | --- | --- |
 | Linked issue | none | N |
-| Linked Linear | `GARRA-110` | Y |
+| Linked Linear | `<linear-id>` | Y |
 | Auto-close substring | not found | Y |
 
 ### Quick CI signal
@@ -75,11 +75,11 @@ None.
 ### Do Now
 
 - Wait for `coverage` (run-220014) to complete.
-- After completion, re-run `/github-health pre-merge https://github.com/michelbr84/GarraRUST 198`.
+- After completion, re-run `/github-health pre-merge https://github.com/michelbr84/fluxswap-dex 198`.
 
 ### Do This Week
 
-- Consider linking the PR to a GitHub issue in addition to Linear `GARRA-110`.
+- Consider linking the PR to a GitHub issue in addition to Linear `<linear-id>`.
 
 ## Approval Required Before Destructive Actions
 

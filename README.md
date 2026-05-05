@@ -76,31 +76,31 @@ If no mode is provided, the orchestrator runs the **full** audit.
 
 ```
 # Full audit
-/github-health https://github.com/michelbr84/GarraRUST
+/github-health https://github.com/michelbr84/fluxswap-dex
 
 # Quick audit (top-level signal only)
-/github-health quick https://github.com/michelbr84/GarraRUST
+/github-health quick https://github.com/michelbr84/fluxswap-dex
 
 # Actions-only audit
-/github-health actions https://github.com/michelbr84/GarraRUST
+/github-health actions https://github.com/michelbr84/fluxswap-dex
 
 # Security-only audit
-/github-health security https://github.com/michelbr84/GarraRUST
+/github-health security https://github.com/michelbr84/fluxswap-dex
 
 # Branch cleanup plan (approval-gated)
-/github-health cleanup-plan https://github.com/michelbr84/GarraRUST
+/github-health cleanup-plan https://github.com/michelbr84/fluxswap-dex
 
 # Linear synchronization audit
-/github-health linear https://github.com/michelbr84/GarraRUST
+/github-health linear https://github.com/michelbr84/fluxswap-dex
 
 # Pre-merge readiness check
-/github-health pre-merge https://github.com/michelbr84/GarraRUST
+/github-health pre-merge https://github.com/michelbr84/fluxswap-dex
 
 # Post-merge follow-up
-/github-health post-merge https://github.com/michelbr84/GarraRUST
+/github-health post-merge https://github.com/michelbr84/fluxswap-dex
 
 # Release readiness
-/github-health release-readiness https://github.com/michelbr84/GarraRUST
+/github-health release-readiness https://github.com/michelbr84/fluxswap-dex
 ```
 
 ---
@@ -241,7 +241,7 @@ Override rules (cannot be GREEN if any apply): main is red, any open secret scan
 
 Illustrative reports are in `examples/`:
 
-- `examples/garra-rust-full-audit-example.md`
+- `examples/full-audit-example.md`
 - `examples/actions-only-example.md`
 - `examples/security-only-example.md`
 - `examples/branch-cleanup-example.md`
@@ -320,4 +320,3 @@ github-health-claude-skills/
 ## License
 
 MIT — see [LICENSE](./LICENSE).
-# github-health-claude-skills

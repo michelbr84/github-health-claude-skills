@@ -4,7 +4,7 @@
 
 # Linear Sync Report
 
-Repository: michelbr84/GarraRUST
+Repository: michelbr84/fluxswap-dex
 Date: 2026-05-05
 Mode: linear
 Overall Status: YELLOW
@@ -21,7 +21,7 @@ GitHub and Linear are mostly aligned, but there are three notable gaps: one PR h
 
 ## Snapshot
 
-- Linear scope inspected: project `GARRA Q2`, cycle `2026-05`
+- Linear scope inspected: project `FluxSwap Q2`, cycle `2026-05`
 - PRs in window: 14
 - PRs linked to Linear: 13
 - PRs unlinked: 1
@@ -37,8 +37,8 @@ None.
 
 ## Attention Needed
 
-- [HIGH] Linear `GARRA-104` marked Done without merged PR evidence.
-- [MEDIUM] Merged PR #194 not reflected in Linear `GARRA-99` status.
+- [HIGH] Linear `FLUX-104` marked Done without merged PR evidence.
+- [MEDIUM] Merged PR #194 not reflected in Linear `FLUX-99` status.
 - [MEDIUM] PR #195 lacks any Linear linkage.
 
 ## Detailed Findings
@@ -59,19 +59,19 @@ None.
 
 | Linear ID | Title | Status | Recommendation |
 | --- | --- | --- | --- |
-| `GARRA-104` | "Cinemachine playmode capture" | Done | Verify completion or move back to In Review (approval-gated) |
+| `FLUX-104` | "Cinemachine playmode capture" | Done | Verify completion or move back to In Review (approval-gated) |
 
 ### Merged PRs missing Linear status update
 
 | PR | Linear ID | PR merged on | Linear status | Recommended status |
 | --- | --- | --- | --- | --- |
-| #194 | `GARRA-99` | 2026-05-02 | In Review | Done (approval-gated) |
+| #194 | `FLUX-99` | 2026-05-02 | In Review | Done (approval-gated) |
 
 ### Roadmap drift
 
 | `ROADMAP.md` item | Linear scope | Status | Recommendation |
 | --- | --- | --- | --- |
-| (none — `ROADMAP.md` aligned with `GARRA Q2`) | — | — | — |
+| (none — `ROADMAP.md` aligned with `FluxSwap Q2`) | — | — | — |
 
 ### Auto-close risks
 
@@ -83,12 +83,12 @@ None.
 
 ### Do Now
 
-- Add `GARRA-<id>` to PR #195 (description or title).
+- Add `FLUX-<id>` to PR #195 (description or title).
 
 ### Do This Week
 
-- Verify `GARRA-104` is genuinely complete; if not, move back to `In Review` with approval.
-- Update `GARRA-99` to `Done` in Linear with approval, since PR #194 merged on 2026-05-02.
+- Verify `FLUX-104` is genuinely complete; if not, move back to `In Review` with approval.
+- Update `FLUX-99` to `Done` in Linear with approval, since PR #194 merged on 2026-05-02.
 
 ### Do Later
 
@@ -96,11 +96,11 @@ None.
 
 ## Approval Required Before Destructive Actions
 
-- Action: Update Linear `GARRA-99` from `In Review` to `Done`.
+- Action: Update Linear `FLUX-99` from `In Review` to `Done`.
   Why: PR #194 merged on 2026-05-02; CHANGELOG references the work.
   Rollback: Move back to `In Review` from the Linear UI.
 
-- Action: Move Linear `GARRA-104` from `Done` back to `In Review`.
+- Action: Move Linear `FLUX-104` from `Done` back to `In Review`.
   Why: No merged PR evidence; the issue may have been closed prematurely.
   Rollback: Move back to `Done` from the Linear UI.
 
@@ -108,4 +108,4 @@ None.
 
 ## Final Recommendation
 
-Reconcile `GARRA-99` and `GARRA-104` this week and add Linear linkage to PR #195. Then re-run `/github-health linear https://github.com/michelbr84/GarraRUST` to confirm sync is clean.
+Reconcile `FLUX-99` and `FLUX-104` this week and add Linear linkage to PR #195. Then re-run `/github-health linear https://github.com/michelbr84/fluxswap-dex` to confirm sync is clean.

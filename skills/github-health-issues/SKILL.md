@@ -1,6 +1,6 @@
 ---
 name: github-health-issues
-description: Audit issues — backlog size, label hygiene, milestones, stale items, duplicates, missing prioritization, and bug-report quality. Triggers on /github-health issues <repo> and on requests like "review the backlog", "are issues being triaged", "what's stale". Read-only; never closes issues without explicit approval.
+description: "Audit GitHub issues: backlog size, label hygiene, milestones, stale issues, duplicates, missing prioritization, and bug-report quality. Triggers on `/github-health issues <repo>` and requests like \"review the backlog\", \"are issues being triaged\", or \"what issues are stale\". Read-only; never closes issues without explicit approval."
 ---
 
 # github-health-issues

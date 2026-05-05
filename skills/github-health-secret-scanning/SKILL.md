@@ -1,6 +1,6 @@
 ---
 name: github-health-secret-scanning
-description: Audit secret scanning alerts, bypasses, leaked credentials, .env hygiene, and workflow secret exposure. Triggers on /github-health secret-scanning <repo> and on requests about leaked secrets, exposed tokens, or secret hygiene. Read-only; never dismisses alerts or rotates secrets.
+description: "Audit secret scanning alerts, bypasses, leaked credentials, .env hygiene, and workflow secret exposure in a GitHub repository. Triggers on `/github-health secret-scanning <repo>` and requests like \"any leaked secrets\", \"review exposed tokens\", or \"audit secret hygiene\". Read-only; never dismisses alerts or rotates secrets."
 ---
 
 # github-health-secret-scanning

@@ -1,6 +1,6 @@
 ---
 name: github-health-security
-description: Umbrella security audit covering code scanning, Dependabot, secret scanning, malware alerts, repository security settings, SECURITY.md, and workflow permissions. Triggers on /github-health security <repo> and on requests like "is this repo secure", "audit security posture", "what's our security debt". Read-only; never dismisses alerts or changes settings without explicit approval.
+description: "Run an umbrella security audit for a GitHub repository aggregating code scanning, Dependabot, secret scanning, malware alerts, repository security settings, SECURITY.md, and workflow permissions into one view. Use when the user wants the whole security picture; for a single dimension use child skills such as github-health-code-scanning, github-health-dependabot, or github-health-secret-scanning. Triggers on `/github-health security <repo>` and requests like \"is this repo secure\", \"audit security posture\", or \"what is our security debt\". Read-only; never dismisses alerts or changes settings without explicit approval."
 ---
 
 # github-health-security

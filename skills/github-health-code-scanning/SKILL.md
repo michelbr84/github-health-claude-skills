@@ -1,6 +1,6 @@
 ---
 name: github-health-code-scanning
-description: Audit CodeQL and other code scanning alerts — open by severity, dismissed with reasons, false-positive handling, remediation tracking. Triggers on /github-health code-scanning <repo> and on requests about CodeQL, SAST, or code scanning alerts. Read-only; never dismisses alerts.
+description: "Audit CodeQL and other code scanning alerts in a GitHub repository: open alerts by severity, dismissed alerts with reasons, false-positive handling, and remediation tracking. Triggers on `/github-health code-scanning <repo>` and requests like \"review CodeQL findings\", \"what SAST alerts are open\", or \"audit static-analysis results\". Read-only; never dismisses alerts."
 ---
 
 # github-health-code-scanning

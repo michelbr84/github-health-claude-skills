@@ -1,6 +1,6 @@
 ---
 name: github-health-dependabot
-description: Audit Dependabot alerts and PRs — severity counts, affected packages, manifest and lockfile coverage, malware alerts, version vs. security updates configuration. Triggers on /github-health dependabot <repo> and on requests about Dependabot alerts, vulnerable dependencies, or supply-chain risk via Dependabot. Read-only; never dismisses alerts or merges PRs.
+description: "Audit Dependabot alerts and PRs in a GitHub repository: severity counts, affected packages, manifest and lockfile coverage, malware alerts, and version-update versus security-update configuration. Use this for vulnerability alerts and Dependabot PR backlogs; for the dependency tree itself use github-health-dependency-graph. Triggers on `/github-health dependabot <repo>` and requests like \"what Dependabot alerts are open\", \"review vulnerable dependencies\", or \"is Dependabot configured\". Read-only; never dismisses alerts or merges PRs."
 ---
 
 # github-health-dependabot

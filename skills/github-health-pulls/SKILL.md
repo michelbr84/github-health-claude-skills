@@ -1,6 +1,6 @@
 ---
 name: github-health-pulls
-description: Audit open pull requests — mergeability, checks, reviews, conflicts, staleness, and traceability to issues or Linear. Triggers on /github-health pulls <repo> and on requests like "review my open PRs", "what PRs are stuck", "is this PR ready to merge". Read-only; never merges or closes PRs without explicit approval.
+description: "Audit the set of open pull requests in a GitHub repository: mergeability, checks, reviews, conflicts, staleness, and traceability to issues or Linear. Triggers on `/github-health pulls <repo>` and requests like \"review my open PRs\", \"what PRs are stuck\", or \"audit the PR backlog\". For a single-PR readiness check, use `/github-health pre-merge` instead. Read-only; never merges or closes PRs without explicit approval."
 ---
 
 # github-health-pulls

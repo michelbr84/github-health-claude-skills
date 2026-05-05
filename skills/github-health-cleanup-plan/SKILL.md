@@ -1,6 +1,6 @@
 ---
 name: github-health-cleanup-plan
-description: Produce a safe, approval-gated cleanup plan covering branches, stale PRs, stale issues, docs updates, security follow-ups, and Linear synchronization. Triggers on /github-health cleanup-plan <repo> and on requests like "give me a cleanup plan", "what should I tidy up". Read-only; every destructive step is explicitly approval-gated.
+description: "Produce a safe, approval-gated multi-area cleanup plan for a GitHub repository covering branches, stale PRs, stale issues, documentation updates, security follow-ups, and Linear synchronization. Use this for cross-cutting cleanup; for branches-only cleanup use github-health-branches. Triggers on `/github-health cleanup-plan <repo>` and requests like \"give me a cleanup plan\" or \"what should I tidy up across the repo\". Read-only; every destructive step is explicitly approval-gated."
 ---
 
 # github-health-cleanup-plan

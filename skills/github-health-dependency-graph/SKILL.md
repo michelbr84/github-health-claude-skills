@@ -1,6 +1,6 @@
 ---
 name: github-health-dependency-graph
-description: Audit the dependency graph, dependency review, manifest and lockfile coverage, transitive risk, abandoned dependencies, and license signals. Triggers on /github-health dependency-graph <repo> and on requests about supply chain, SBOM, or transitive dependencies. Read-only; never modifies manifests or lockfiles.
+description: "Audit the structural dependency tree of a GitHub repository: manifest and lockfile coverage, transitive dependency depth, abandoned or unmaintained packages, license signals, and SBOM readiness. Use this for what is in the dependency tree; for vulnerability alerts in those packages use github-health-dependabot. Triggers on `/github-health dependency-graph <repo>` and requests like \"review our dependency tree\", \"any abandoned packages\", \"do we have an SBOM\", or \"is the lockfile current\". Read-only; never modifies manifests or lockfiles."
 ---
 
 # github-health-dependency-graph

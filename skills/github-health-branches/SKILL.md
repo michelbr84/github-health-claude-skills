@@ -1,6 +1,6 @@
 ---
 name: github-health-branches
-description: Audit branch hygiene — stale branches, merged-but-undeleted branches, orphan branches, naming risks, and cleanup candidates. Triggers on /github-health branches <repo> and on requests like "what branches can I delete", "branch cleanup", "are there stale branches". Read-only; never deletes branches without explicit approval.
+description: "Audit GitHub branch hygiene: merged branches, stale branches, orphan branches, branches behind main, branch naming risks, and branch cleanup candidates. Triggers on `/github-health branches <repo>` and requests like \"review branches\", \"which branches can I delete\", \"branch cleanup\", or \"are there stale branches\". Use this for branch-only cleanup; for cross-cutting cleanup (branches + PRs + issues + docs + security + Linear) use github-health-cleanup-plan instead. Read-only; never deletes branches without explicit approval."
 ---
 
 # github-health-branches

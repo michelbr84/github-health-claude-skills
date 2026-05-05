@@ -1,6 +1,6 @@
 ---
 name: github-health-releases
-description: Audit tags, releases, changelog alignment, versioning consistency, release notes quality, artifacts, and release readiness. Triggers on /github-health releases <repo> and on requests like "is our release process clean", "review release history". Read-only; never creates, edits, or deletes releases or tags.
+description: "Audit tags, releases, changelog alignment, versioning consistency, release notes quality, artifacts, and release-history hygiene. Triggers on `/github-health releases <repo>` and requests like \"is our release process clean\", \"review release history\", or \"is the changelog aligned with tags\". For a full release-readiness check today (a composite of full + releases + security context), use `/github-health release-readiness <repo>` instead. Read-only; never creates, edits, or deletes releases or tags."
 ---
 
 # github-health-releases

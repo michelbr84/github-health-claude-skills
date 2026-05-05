@@ -1,6 +1,6 @@
 ---
 name: github-health-full
-description: Run a complete end-to-end health audit of a GitHub repository. Covers main branch, Actions, pull requests, branches, issues, security alerts, dependencies, documentation, releases, permissions, and Linear sync. Triggers on /github-health full <repo>, /github-health standard <repo>, /github-health deep <repo>, and on requests like "audit the whole repo" or "give me a complete health check". Read-only; destructive recommendations are approval-gated.
+description: "Run an end-to-end health audit of a GitHub repository covering main branch, Actions, pull requests, branches, issues, security alerts, dependencies, documentation, releases, permissions, and Linear sync. Triggers on `/github-health full <repo>`, `/github-health standard <repo>`, `/github-health deep <repo>`, `/github-health quick <repo>` for a quick subset, and requests like \"audit the whole repo\" or \"give me a complete health check\". Read-only; destructive recommendations are approval-gated."
 ---
 
 # github-health-full

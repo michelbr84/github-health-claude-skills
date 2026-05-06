@@ -2,6 +2,29 @@
 
 All notable changes to this project are documented in this file. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to semantic versioning.
 
+## [0.2.1] — 2026-05-06
+
+### Fixed
+
+- **Dependabot alert pagination correctness.** Fixed a counting bug where Dependabot alert totals, severity breakdowns, and manifest breakdowns could be silently truncated to a single API page (default 30 items) for repositories with many open alerts. Observed in FluxSwap, where the GitHub UI showed 71 open alerts but a non-paginated `gh api repos/<owner>/<repo>/dependabot/alerts` returned only 30. All Dependabot alert collection now requires `--paginate` with `per_page=100`.
+
+### Changed
+
+- `skills/github-health-dependabot/SKILL.md`: added a *Pagination is mandatory* section, replaced the non-paginated example with paginated PowerShell and POSIX commands for count, severity, and manifest breakdown, and added explicit *What not to do* rules against single-page totals and silent UI/API mismatches. Score must not be recalculated from a partial page.
+- `skills/github-health-security/SKILL.md`: Dependabot evidence now uses paginated calls; the umbrella security audit must not derive Dependabot counts from a single page. Code scanning and secret scanning calls were also updated to `--paginate`/`per_page=100` for consistency.
+- `skills/github-health-full/SKILL.md`: Dependabot collection note added in the procedure and quick-mode subsection so the full and quick audits both require paginated counts.
+- `skills/github-health-improve/SKILL.md`: hard safety rule added — the skill must not claim that Dependabot alert drops (or any "exogenous alert drop") raised the score unless both the previous and the new counts came from paginated API calls. The delta-computation step labels Dependabot deltas `Unverified — pagination not confirmed` when pagination is uncertain.
+- `github-health/references/collection-guide.md`: rewrote the *Dependabot* subsection to document the truncation behavior, list paginated PowerShell and POSIX commands, and warn that a UI/API count mismatch most often signals a non-paginated call. Data quality rules updated accordingly.
+- `agents/security-auditor.md` and `agents/dependency-auditor.md`: replaced the bare `gh api repos/.../dependabot/alerts?state=open` example with the paginated form, with a note pointing to the canonical collection guide.
+- `evals/evals.json`: added `dependabot-pagination-truncation` scenario with a 71-vs-30 mismatch.
+- `evals/expected-behavior.md`: added the matching expected-behavior entry.
+
+### Notes
+
+- Markdown-only patch. No executable scripts added. `install.sh` unchanged.
+- Templates were not modified — none of them embed the non-paginated command. The paginated commands live in skills and references where the audit procedures are described.
+- All `SKILL.md` files retain their existing YAML frontmatter (`name` / `description` only).
+
 ## [0.2.0] — 2026-05-05
 
 ### Added

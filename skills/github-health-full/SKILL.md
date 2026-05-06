@@ -41,7 +41,7 @@ Use this skill when the user wants a **complete** health audit. It is the defaul
    - Issues
    - Security (umbrella)
    - CodeQL / code scanning
-   - Dependabot
+   - Dependabot — **always paginated** (`--paginate` with `per_page=100`); never report counts or severity tables from a non-paginated call. See `github-health-dependabot/SKILL.md` and `collection-guide.md`.
    - Secret scanning
    - Dependency graph
    - Permissions / collaborators / apps
@@ -61,7 +61,7 @@ When `quick` is specified, only collect:
 
 - Default branch CI status.
 - Branch protection presence/absence.
-- Open security alerts (counts by type and severity).
+- Open security alerts (counts by type and severity). For Dependabot, the count must come from a paginated API call (`--paginate`, `per_page=100`); a single-page count is insufficient even in quick mode.
 - Top-3 oldest open PRs.
 - Top-3 stale branches.
 - Documentation presence (README, SECURITY).

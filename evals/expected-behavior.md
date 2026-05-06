@@ -172,6 +172,19 @@ Each file follows its template. The delta report includes previous score, new sc
 
 A good answer never overwrites an existing file (per the persistence contract) and never auto-commits any of the three.
 
+## dependabot-pagination-truncation
+
+The skill recognizes that the GitHub UI count (71) and the first-page API count (30) disagree, treats the mismatch as a verification issue, and re-runs the API call with `--paginate "...?state=open&per_page=100"` before reporting any total, severity breakdown, or manifest breakdown. The reported total reflects the paginated result; 30 is never reported as the total.
+
+A good answer:
+
+- States both numbers (UI: 71, first-page API: 30) until they reconcile, and flags the discrepancy as a finding until paginated evidence is collected.
+- Re-runs counts, severity, and manifest queries with `--paginate` and `per_page=100` (PowerShell or POSIX form, both documented in `github-health-dependabot/SKILL.md` and `collection-guide.md`).
+- Does not compute or recalculate the Dependencies/Security score from the partial 30-item page; if pagination is uncertain, marks the score as `Unverified — pagination not confirmed` and re-collects.
+- For `/github-health-improve`, never claims an "exogenous alert drop" raised the score unless both the previous and new counts came from paginated calls.
+
+A bad answer reports 30 as the open-alert total, derives a severity table from a single page, or credits a score increase to a Dependabot alert drop without paginated confirmation.
+
 ## improve-estimated-score-when-no-fresh-report
 
 If the post-merge verification audit has not produced a fresh report (timeout, audit error, network), the delta report's *Score change* table is labeled `(estimated)` on every row, and the *Verification* section says `Score change source: estimated (no fresh audit)`. The skill does not claim a verified score change.

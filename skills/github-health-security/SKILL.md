@@ -33,9 +33,9 @@ description: "Run an umbrella security audit for a GitHub repository aggregating
    - Dependabot version and security updates enabled.
 2. Count open alerts by category and severity:
    - Code scanning (CodeQL).
-   - Dependabot.
+   - Dependabot — **always paginated** (`--paginate` with `per_page=100`); see `github-health-dependabot/SKILL.md` and `collection-guide.md`. A non-paginated call truncates at 30 items and must not be used for any count, severity, or manifest breakdown.
    - Secret scanning.
-   - Malware (a special class of Dependabot alerts).
+   - Malware (a special class of Dependabot alerts; same pagination rule applies).
 3. Inspect `SECURITY.md`:
    - Present and current?
    - Reporting channel clearly described?
@@ -52,12 +52,14 @@ description: "Run an umbrella security audit for a GitHub repository aggregating
 
 ```
 gh api repos/<owner>/<repo> --jq '.security_and_analysis'
-gh api repos/<owner>/<repo>/code-scanning/alerts?state=open
-gh api repos/<owner>/<repo>/dependabot/alerts?state=open
-gh api repos/<owner>/<repo>/secret-scanning/alerts?state=open
+gh api --paginate "repos/<owner>/<repo>/code-scanning/alerts?state=open&per_page=100"
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100"
+gh api --paginate "repos/<owner>/<repo>/secret-scanning/alerts?state=open&per_page=100"
 ls -la SECURITY.md
 ls -la .github/workflows
 ```
+
+> The `repos/<owner>/<repo>/dependabot/alerts` endpoint silently truncates to a single page (default 30 items). For any Dependabot count, severity breakdown, or manifest breakdown reproduced in the security report, use `--paginate` with `per_page=100`. If the GitHub UI count and API count disagree, re-run paginated and treat the mismatch as a verification issue. See `github-health-dependabot/SKILL.md` for the full PowerShell and POSIX command set.
 
 ## Red flags
 

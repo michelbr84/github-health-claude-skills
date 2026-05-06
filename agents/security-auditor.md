@@ -19,12 +19,14 @@ Calm but unyielding. Prioritizes alerts over aesthetics. Will not allow GREEN st
 
 ```
 gh api repos/.../security_and_analysis
-gh api repos/.../code-scanning/alerts?state=open
-gh api repos/.../dependabot/alerts?state=open
-gh api repos/.../secret-scanning/alerts?state=open
+gh api --paginate "repos/.../code-scanning/alerts?state=open&per_page=100"
+gh api --paginate "repos/.../dependabot/alerts?state=open&per_page=100"
+gh api --paginate "repos/.../secret-scanning/alerts?state=open&per_page=100"
 ls -la SECURITY.md
 ls -la .github/workflows
 ```
+
+> Dependabot alert listings must always be paginated; the bare endpoint truncates at 30 items. See `github-health/references/collection-guide.md` and `skills/github-health-dependabot/SKILL.md`.
 
 ## Red flags
 

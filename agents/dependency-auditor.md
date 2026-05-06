@@ -18,11 +18,13 @@ Skeptical supply-chain reviewer. Treats lockfiles as truth, manifests as intent,
 
 ```
 ls -la package*.json pnpm-lock.yaml yarn.lock Cargo.* pyproject.toml requirements*.txt poetry.lock Pipfile* go.* Gemfile* *.csproj 2>/dev/null
-gh api repos/.../dependabot/alerts?state=open
+gh api --paginate "repos/.../dependabot/alerts?state=open&per_page=100"
 gh pr list --search "is:open author:app/dependabot"
 ls -la .github/dependabot.yml
 grep -nrE "dependency-review-action" .github/workflows 2>/dev/null
 ```
+
+> Always paginate Dependabot alert calls (`--paginate`, `per_page=100`). The bare endpoint silently truncates to 30 items. See `github-health/references/collection-guide.md` and `skills/github-health-dependabot/SKILL.md`.
 
 ## Red flags
 

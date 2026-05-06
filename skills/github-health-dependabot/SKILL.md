@@ -27,7 +27,7 @@ description: "Audit Dependabot alerts and PRs in a GitHub repository: severity c
 
 1. Confirm Dependabot is enabled (version updates, security updates).
 2. Read `.github/dependabot.yml` if present and validate ecosystems covered.
-3. List open Dependabot alerts by severity.
+3. List open Dependabot alerts by severity. **Always use paginated API calls** (`--paginate` and `per_page=100`) — see *Pagination is mandatory* below.
 4. Identify any **Dependabot malware** alerts — these are the highest priority and must always be a BLOCKER.
 5. List open Dependabot PRs and classify:
    - Mergeable, checks green.
@@ -37,13 +37,51 @@ description: "Audit Dependabot alerts and PRs in a GitHub repository: severity c
 6. Cross-check coverage:
    - Are all manifest files in the repo covered by `dependabot.yml`?
    - Are all relevant lockfiles present?
-7. Score the Dependencies and Security areas per `scoring-model.md`.
+7. Score the Dependencies and Security areas per `scoring-model.md`. **Never compute or recalculate the score from a partial Dependabot page** — if pagination is uncertain, mark the score as `Unverified — pagination not confirmed` and re-collect.
 8. Render a report focused on **Dependencies** and the **Dependabot** subsection of Security.
+
+## Pagination is mandatory
+
+The GitHub REST endpoint `repos/<owner>/<repo>/dependabot/alerts` returns at most 30 items by default and 100 per page with `per_page=100`. Repositories with many open alerts (FluxSwap had 71) are silently truncated when the request is made without pagination. **Any count, severity breakdown, or manifest breakdown derived from a non-paginated call is wrong and must not be reported as the total.**
+
+Rules:
+
+- Always combine `--paginate` with `per_page=100` for any Dependabot alert listing.
+- A bare `gh api repos/<owner>/<repo>/dependabot/alerts` (no `--paginate`, no `per_page`) is **insufficient** for repositories with many alerts. Do not use it as the source of any count, severity table, or manifest table.
+- If the GitHub UI count and the API count disagree, treat the mismatch as a verification issue: re-run with `--paginate "...?state=open&per_page=100"` and reconcile. State both numbers in the finding until they match.
+- Do not extrapolate, estimate, or "round up" the alert count from a single page.
 
 ## Evidence to collect
 
+PowerShell — open alert count:
+
 ```
-gh api repos/<owner>/<repo>/dependabot/alerts?state=open
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].number' | Measure-Object -Line
+```
+
+PowerShell — severity breakdown:
+
+```
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].security_vulnerability.severity' | Sort-Object | Group-Object
+```
+
+PowerShell — manifest breakdown:
+
+```
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].dependency.manifest_path' | Sort-Object | Group-Object
+```
+
+POSIX shell equivalents (counts, severity, manifest):
+
+```
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].number' | wc -l
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].security_vulnerability.severity' | sort | uniq -c
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].dependency.manifest_path' | sort | uniq -c
+```
+
+Dependabot PRs and config:
+
+```
 gh pr list --search "is:open author:app/dependabot" --json number,title,createdAt,updatedAt,mergeable,statusCheckRollup
 ls -la .github/dependabot.yml
 ```
@@ -81,3 +119,5 @@ Use the standard contract. Populate **Detailed Findings → Dependencies** and t
 
 - Do not auto-classify a critical alert as "low impact" without documented justification from the user.
 - Do not recommend pinning to old versions just to avoid breaking changes when a security fix is available.
+- Do not report an alert count, severity breakdown, or manifest breakdown derived from a non-paginated `gh api repos/<owner>/<repo>/dependabot/alerts` call. Always use `--paginate` with `per_page=100`.
+- Do not silently treat the first API page as the total. If the UI count differs from the API count, flag a verification issue and re-run paginated.

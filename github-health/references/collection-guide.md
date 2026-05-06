@@ -93,8 +93,29 @@ gh api repos/<owner>/<repo>/code-scanning/alerts?state=open
 
 ### Dependabot
 
+The `repos/<owner>/<repo>/dependabot/alerts` endpoint silently truncates to a single page (default 30 items, max 100 per page). **Any count, severity breakdown, or manifest breakdown derived from a non-paginated call is wrong and must not be reported as the total.** Always combine `--paginate` with `per_page=100`. A bare `gh api repos/<owner>/<repo>/dependabot/alerts` (no `--paginate`, no `per_page`) is **insufficient** for repositories with many alerts — for example, a repo with 71 open alerts will report 30 unless paginated.
+
+If the GitHub UI count and the API count disagree, treat the mismatch as a verification issue: re-run paginated and reconcile. Do not extrapolate the alert count from a single page.
+
+PowerShell — open alert count, severity, manifest:
+
 ```
-gh api repos/<owner>/<repo>/dependabot/alerts?state=open
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].number' | Measure-Object -Line
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].security_vulnerability.severity' | Sort-Object | Group-Object
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].dependency.manifest_path' | Sort-Object | Group-Object
+```
+
+POSIX shell — open alert count, severity, manifest:
+
+```
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].number' | wc -l
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].security_vulnerability.severity' | sort | uniq -c
+gh api --paginate "repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100" --jq '.[].dependency.manifest_path' | sort | uniq -c
+```
+
+Dependabot PRs and config:
+
+```
 gh pr list --search "is:open author:app/dependabot"
 ls -la .github/dependabot.yml
 ```
@@ -163,7 +184,7 @@ ls LICENSE LICENSE.md COPYING 2>/dev/null
 
 - Always fetch before reading remote refs (`git fetch --all --prune`).
 - Treat any data older than 60 minutes (in a long session) as potentially stale.
-- If counts disagree between two sources (e.g., `gh pr list` vs UI), state both and flag the inconsistency.
+- If counts disagree between two sources (e.g., `gh pr list` vs UI), state both and flag the inconsistency. For Dependabot specifically, a UI/API mismatch most often means the API call was not paginated — re-run with `--paginate` and `per_page=100` before reporting either number.
 - If access is denied (private repo, missing scope), record `Unverified — access denied` and continue.
 
 ## Privacy rules

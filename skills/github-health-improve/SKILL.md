@@ -175,7 +175,7 @@ Even when fully autonomous, every iteration follows the same numbered procedure.
 12. **Wait for Actions.** Poll `gh run list --branch <branch>` and `gh pr checks <number>` until either every required check is conclusive or the timeout is hit. Surface the run URLs in the execution summary. If a required check fails, stop the iteration and do not merge.
 13. **Merge?** Only if `--auto-merge` is present, the PR is `MERGEABLE` / `CLEAN`, every required check is `success`, and no review has requested changes. Merge using `gh pr merge --squash --delete-branch=false` (do not delete the remote branch automatically — see safety rules).
 14. **Verification audit.** After merge: `/github-health quick <repo> --save`. The skill must wait for the new report file to be written before reading it.
-15. **Compute the delta.** Parse the new report's score and findings; compare to the previous report. Write the **Health Delta Report**.
+15. **Compute the delta.** Parse the new report's score and findings; compare to the previous report. Write the **Health Delta Report**. When the previous and new reports include Dependabot alert counts, verify both were obtained from paginated calls (`--paginate`, `per_page=100`); if either is unconfirmed, label the Dependabot delta `Unverified — pagination not confirmed` and do not credit the score change to a Dependabot drop.
 16. **Loop or stop.** If iterations remain *and* the target score is not yet reached *and* no stop condition has been met, return to step 1 with the new report as input.
 
 ## Stop conditions (any one halts the loop immediately)
@@ -212,6 +212,7 @@ The skill **never**:
 - Merges directly to the default branch without a PR.
 - Modifies production deployment secrets, environment protections, or deploy keys.
 - Claims a score improved without a fresh report verifying it. If no fresh report is available (e.g., audit is still running), report the change as **estimated** and label it as such in the delta.
+- Claims that Dependabot alerts dropped (or that any "exogenous alert drop" raised the score) unless the new count was obtained from a **paginated** API call (`--paginate` with `per_page=100`) on both the previous and the new report. A drop computed against a single-page (≤30) baseline or measurement is not a verified drop and must be labeled `Unverified — pagination not confirmed` in the delta. See `github-health-dependabot/SKILL.md` for the exact commands.
 
 These rules are not relaxed by any flag, including `--dangerously-skip-approvals`.
 

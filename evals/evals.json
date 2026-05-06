@@ -202,6 +202,14 @@
       "intent": "When no fresh post-merge report is available, the delta report must label the new score as estimated and not claim a verified improvement.",
       "expected_route": "skills/github-health-improve (delta with estimated label)",
       "expected_behavior_refs": ["improve-estimated-score-when-no-fresh-report"]
+    },
+    {
+      "id": "dependabot-pagination-truncation",
+      "skill": "github-health",
+      "prompt": "/github-health dependabot https://github.com/michelbr84/fluxswap-dex (GitHub UI shows 71 open Dependabot alerts; the first API page returns 30)",
+      "intent": "Detect single-page truncation when the API count disagrees with the UI count. The skill must re-run with --paginate and per_page=100 and never report 30 as the total.",
+      "expected_route": "skills/github-health-dependabot",
+      "expected_behavior_refs": ["dependabot-pagination-truncation"]
     }
   ]
 }

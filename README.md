@@ -170,6 +170,88 @@ The full persistence contract — including the `Saved to:` metadata line and ov
 
 ---
 
+## `/github-health-improve` — apply the next score-improving fix
+
+`/github-health` audits. **`/github-health-improve`** acts on the audit. It reads the most recent saved report, picks the next highest-leverage improvement that fits the chosen risk level, and (depending on flags) creates a non-`main` branch, edits files, runs local checks, commits, pushes, opens a PR, optionally merges if checks are green, then re-audits and produces a delta report. It is approval-gated by default and supports an autonomous ratchet loop under explicit flags. The full skill spec lives in `skills/github-health-improve/SKILL.md`.
+
+### Modes
+
+| Invocation | What happens |
+| --- | --- |
+| `/github-health-improve <repo>` | Default. Read the latest report, propose the next improvement, **stop and ask** before editing. |
+| `/github-health-improve <repo> --auto` | Apply one in-scope improvement, branch, commit, push, open a PR, wait for Actions. **Does not merge.** |
+| `/github-health-improve <repo> --auto --auto-merge` | Same as `--auto`, plus merge if every required check is green and the PR is mergeable. After merge, run `/github-health quick <repo> --save` and produce a delta report. |
+| `/github-health-improve <repo> --dangerously-skip-approvals --auto --auto-merge --max-iterations <N>` | Autonomous ratchet loop up to N iterations (hard cap: 5). Skips the skill's between-step approval prompts only — see safety note below. |
+
+### Flags
+
+- `--auto` — apply one improvement automatically.
+- `--auto-merge` — merge the PR only when all required checks are green and the branch is mergeable. Never merge red, pending, missing, skipped-in-required, or inconclusive.
+- `--dangerously-skip-approvals` — skip the skill's *conversational* approval gates only. **Required:** must be combined with `--max-iterations` when `--auto-merge` is also present.
+- `--max-iterations <N>` — maximum improvement cycles (default 1, hard maximum 5).
+- `--target-score <N>` — stop once the verified score is ≥ N (default 100).
+- `--risk-level low|medium|high` — controls which classes of improvement are allowed (default `low`).
+- `--dry-run` — read reports and simulate the chosen loop without changing files.
+- `--from-reports <path>` — explicit prior-report directory. Default is `.github-health-reports/<owner>-<repo>/`.
+- `--save` — save improvement plan, execution summary, and delta report to disk (default path uses the same convention as the audit, with `improvement-`, `execution-`, and `delta-` prefixes).
+- `--save-to <path>` — save the delta report to a custom path; if `<path>` is a directory, all three reports are written there.
+
+### Risk levels
+
+- **`low` (default).** `LICENSE`, `CONTRIBUTING.md`, `CHANGELOG.md`, `CODEOWNERS`, README fixes, `SECURITY.md` improvements, doc/report organization, GitHub Actions comment/naming-only edits, adding the **default** CodeQL workflow when language support is clear, and merging Dependabot PRs whose CI is already green.
+- **`medium`.** All `low` plus: test-only changes, lint/format via existing tooling, CI workflow improvements (least-privilege `permissions:`, SHA pinning), non-major dependency bumps with lockfile updates, CodeQL workflow tuning.
+- **`high`.** All `medium` plus: source-code changes, package upgrades not already proposed by Dependabot, build changes, security-remediation code changes.
+
+### Hard safety rules (apply in every mode, including dangerous)
+
+The skill **never**:
+
+- force-pushes, rewrites history, deletes branches, deletes issues, closes PRs;
+- dismisses Dependabot, CodeQL, secret scanning, or malware alerts;
+- rotates, deletes, or adds secrets;
+- weakens branch protection, repository security settings, or required-status-check rules;
+- disables CI, tests, CodeQL, Dependabot, or secret scanning;
+- merges with red, pending, missing, skipped-in-required, or inconclusive checks;
+- merges directly to the default branch without a PR;
+- modifies production deployment secrets or environment protections;
+- commits `.env`, private keys, tokens, or generated health reports unless explicitly configured;
+- claims a score improved without a fresh report — when the verification audit hasn't completed, the score change is reported as **estimated**.
+
+### What `--dangerously-skip-approvals` actually does
+
+It skips **only the skill's own conversational approval gates** between steps. It does **not** bypass:
+
+- Claude Code permission prompts (enforced by the harness).
+- Operating-system permissions.
+- GitHub permissions (the `gh` token's scopes apply).
+- Branch protection or required checks (enforced upstream by GitHub).
+- Secret scanning push protection.
+- Linear permissions or any other connector.
+- Repository rulesets.
+- Pre-commit / pre-push hooks (`--no-verify` is never used).
+
+In other words, it is a *user-side* concession that the skill may proceed without re-prompting; it is not a privilege escalation against any external system.
+
+### Examples (using FluxSwap as the canonical sample)
+
+```
+# Approval-gated — propose the next improvement and wait for user approval
+/github-health-improve G:\Projetos\fluxswap-dex --from-reports G:\Projetos\fluxswap-dex\.github-health-reports
+
+# One automatic improvement, no merge — branches, pushes, opens PR, waits for Actions
+/github-health-improve G:\Projetos\fluxswap-dex --auto --risk-level low --max-iterations 1 --save
+
+# Automatic merge if green — applies one improvement and merges only if all required checks pass
+/github-health-improve G:\Projetos\fluxswap-dex --auto --auto-merge --risk-level low --max-iterations 1 --save
+
+# Dangerous autonomous ratchet — up to 3 iterations, stop when score ≥ 95
+/github-health-improve G:\Projetos\fluxswap-dex --dangerously-skip-approvals --auto --auto-merge --risk-level low --max-iterations 3 --target-score 95 --save
+```
+
+The skill works for any GitHub repository — FluxSwap is the canonical sample because the audit examples in this repo target it.
+
+---
+
 ## Modes at a glance
 
 | Mode | Purpose |

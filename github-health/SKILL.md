@@ -213,3 +213,7 @@ Full safety contract: `references/safety-rules.md`.
 ## When to escalate to the full audit
 
 If a narrow scope reveals systemic issues (e.g., Dependabot audit finds the lockfile is missing entirely, or branch audit finds branch protection is off), recommend the user re-run with `/github-health full <repo>` and capture this recommendation in the **Final Recommendation** section.
+
+## Acting on the report
+
+This skill audits and reports — it does not edit code. After an audit, if the user wants to apply the next score-improving fix, route them to `/github-health-improve <repo>` (see `skills/github-health-improve/SKILL.md`). That skill is approval-gated by default and supports an autonomous ratchet mode under explicit flags.

@@ -2,6 +2,51 @@
 
 All notable changes to this project are documented in this file. The format is loosely based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to semantic versioning.
 
+## [0.2.0] — 2026-05-05
+
+### Added
+
+- New skill: `skills/github-health-improve/SKILL.md`. Reads the most recent saved GitHub Health Report and applies the next score-improving change. The skill is approval-gated by default and supports an autonomous ratchet loop under explicit flags. It is the *executor* counterpart to the existing audit/report skill, which remains read-only.
+- New flags on `/github-health-improve`:
+  - `--auto` — apply one in-scope improvement automatically (branch, commit, push, open PR, wait for Actions). Does **not** merge.
+  - `--auto-merge` — when combined with `--auto`, merge the PR only when every required check is green and the branch is mergeable. Never merge red, pending, missing, skipped-in-required, or inconclusive.
+  - `--dangerously-skip-approvals` — skip the skill's own conversational approval gates between steps. Mandatory `--max-iterations` when combined with `--auto-merge`.
+  - `--max-iterations <N>` — maximum improvement cycles (default 1, hard maximum 5).
+  - `--target-score <N>` — stop once the verified score is ≥ N (default 100).
+  - `--risk-level low|medium|high` — controls which classes of improvement are allowed (default `low`).
+  - `--dry-run` — simulate without modifying files.
+  - `--from-reports <path>` — explicit prior-report directory.
+  - `--save` / `--save-to <path>` — persist the improvement plan, execution summary, and delta report (uses the same persistence contract as audits).
+- Risk-level policy: `low` covers documentation/governance and the default CodeQL workflow; `medium` adds tests, lint/format, CI improvements, and non-major dependency bumps; `high` adds source-code, build, and security-remediation changes.
+- Branch convention `health/ratchet-<YYYYMMDD>-<short-topic>` and Conventional Commits messages (`chore(health): …`, `docs(health): …`, `ci(security): …`).
+- Three new templates supporting repeatable improvement runs:
+  - `templates/improvement-plan.md`
+  - `templates/execution-summary.md`
+  - `templates/health-delta-report.md`
+- README section documenting the new skill, modes, flags, risk levels, hard safety rules, the precise scope of `--dangerously-skip-approvals`, and FluxSwap usage examples.
+- Brief cross-link in `github-health/SKILL.md` so the audit orchestrator can route users to `/github-health-improve` when they want to act on a report. The orchestrator itself remains audit/report-only.
+- Ten new evaluation entries covering: default-mode approval, `--auto` non-merge behavior, `--auto-merge` merge gating, the mandatory `--max-iterations` for dangerous mode, hard-stop on red Actions, refusal of force push, refusal to weaken branch protection, delta-report generation, and the `estimated` score label when no fresh report is available.
+
+### Hard safety rules (unchanged by any flag)
+
+- No force push, no history rewrite, no branch deletion.
+- No issue or PR closure.
+- No dismissal of Dependabot, CodeQL, secret scanning, or malware alerts.
+- No secret rotation, deletion, or addition.
+- No weakening of branch protection or required checks.
+- No disabling of CI, tests, CodeQL, Dependabot, or secret scanning.
+- No merge with red, pending, missing, skipped-in-required, or inconclusive checks.
+- No direct merge to the default branch without a PR.
+- No modification of production deployment secrets or environment protections.
+- No commit of `.env`, private keys, tokens, or generated health reports unless explicitly configured.
+- No claim of a score improvement without a fresh report; otherwise the change is labeled **estimated**.
+
+### Notes
+
+- `--dangerously-skip-approvals` skips **only** the skill's own conversational approval gates. It does not bypass Claude Code permission prompts, the operating system, GitHub permissions, branch protection, required checks, secret scanning push protection, Linear, repository rulesets, or pre-commit/pre-push hooks. The skill never uses `--no-verify`.
+- This release is a feature addition (autonomous executor mode), hence the `0.2.0` minor bump rather than a `0.1.x` patch.
+- No install-script changes, no new package-manager files, no executable code added beyond the existing `install.sh`.
+
 ## [0.1.2] — 2026-05-05
 
 ### Added
